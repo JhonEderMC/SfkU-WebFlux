@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class PersonaRepositoryImplement implements PersonRepositoryInter{
+public class PersonRepositoryImplement implements PersonRepositoryInter{
 
     private List<Person> personList;
 
-    public PersonaRepositoryImplement() {
+    public PersonRepositoryImplement() {
         this.personList = start();
     }
 
