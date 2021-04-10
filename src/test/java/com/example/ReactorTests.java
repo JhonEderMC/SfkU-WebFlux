@@ -1,6 +1,8 @@
 package com.example;
 
-import org.junit.Test;
+
+
+import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
@@ -10,8 +12,9 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 
 public class ReactorTests {
 
@@ -93,7 +96,7 @@ public class ReactorTests {
         assertFalse(namesIterator.hasNext());
     }
 
-    @Test
+    //@Test
     public Flux<String> t(){
 
         Flux<String> s = Flux.fromIterable(getList());
