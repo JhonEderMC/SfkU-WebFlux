@@ -52,11 +52,28 @@ class PersonControllerTest {
                 .consumeWith( people ->{
                     List<Person> peopleList = people.getResponseBody();
                     peopleList.forEach(person -> {
-                        assertTrue(person.getId() !=null);
-                        assertTrue(person.getName() !=null);
-                        assertTrue(person.getAge() !=null);
+                        assertNotNull(person.getId() );
+                        assertNotNull(person.getName());
+                        assertNotNull(person.getAge());
                     });
                 });
 
+    }
+
+    @Test
+    void getPersonByIdValidate(){
+        webTestClient.get().uri("/person".concat("/{id}"), "7").exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody()
+                .jsonPath("7", "Camila", "27");
+    }
+
+    @Test
+    void getPersonByIdNoFound(){
+        webTestClient.get().uri("person".concat("/{id}"), "-10")
+                .exchange()
+                .expectBody()
+                .jsonPath("-1", "NO_FOUND", "-999");
     }
 }
