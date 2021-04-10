@@ -15,7 +15,7 @@ public class PersonController {
     @Autowired
     PersonServiceInterface service;
 
-    @GetMapping
+    @GetMapping("/all")
     public Flux<Person> getPeople(){
      return  service.findAll();
     }
