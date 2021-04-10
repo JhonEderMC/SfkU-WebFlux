@@ -22,7 +22,7 @@ public class PersonaRepositoryImplement implements PersonRepositoryInter{
 
     @Override
     public Flux<Person> findAll() {
-        return null;
+        return Flux.fromIterable(personList);
     }
 
     @Override
