@@ -20,7 +20,7 @@ public class PersonaServiceImpl implements PersonServiceInterface{
 
     @Override
     public Mono<Person> findById(Integer personId) {
-        return null;
+        return repo.findById(personId);
     }
 
     @Override
