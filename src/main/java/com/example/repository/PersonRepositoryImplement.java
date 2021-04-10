@@ -51,7 +51,12 @@ public class PersonRepositoryImplement implements PersonRepositoryInter{
                 new Person(3 , "Luisa", 19),
                 new Person(5 , "Oscar", 37),
                 new Person(6 , "Andrea", 20),
-                new Person(7 , "Camila", 27)
+                new Person(7 , "Camila", 27),
+                new Person(8 , "Jhonatan", 23),
+                new Person(9 , "Jhon", 29),
+                new Person(10 , "Jhovan", 24),
+                new Person(11 , "Leidy", 18),
+                new Person(12 , "Sandra", 24)
         );
     }
 }
