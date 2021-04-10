@@ -1,7 +1,8 @@
 package com.example.repository;
 
 import com.example.model.Person;
-import org.springframework.expression.spel.ast.Literal;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -11,6 +12,8 @@ import java.util.List;
 
 @Repository
 public class PersonRepositoryImplement implements PersonRepositoryInter{
+
+    private static Logger logger = LoggerFactory.getLogger(PersonRepositoryImplement.class);
 
     private List<Person> personList;
 
@@ -27,7 +30,12 @@ public class PersonRepositoryImplement implements PersonRepositoryInter{
 
     @Override
     public Mono<Person> findById(Integer personId) {
-        return null;
+          return Flux.fromIterable(personList)
+                    .filter(person -> person.getId().equals(personId))
+                    .switchIfEmpty(Mono.just(Person.PERSON_NO_FOUND))
+                    .flatMap(person -> Mono.just(person))
+                    .log()
+                    .next();
     }
 
     @Override
