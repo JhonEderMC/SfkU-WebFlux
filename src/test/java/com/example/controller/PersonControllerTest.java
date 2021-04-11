@@ -111,10 +111,16 @@ class PersonControllerTest {
                 .body(Mono.just(Person.DEFAULT_PERSON), Person.class)
                 .exchange()
                 .expectStatus().isCreated()
-                .expectBody()
-                .jsonPath("$.id").isNotEmpty()
-                .jsonPath("$.name").isEqualTo("DEFAULT")
-                .jsonPath("$.age").isEqualTo("999");
+                .expectBody(Person.class)
+                //.jsonPath("$.id").isEqualTo("0")
+                //.jsonPath("$.name").isEqualTo("DEFAULT")
+                //.jsonPath("$.age").isEqualTo("999");
+                .consumeWith(p->{
+                    var person = p.getResponseBody();
+                    assertEquals(0, person.getId());
+                    assertEquals("DEFAULT", person.getName());
+                    assertEquals(999, person.getAge());
+                });
     }
 
     @Test
