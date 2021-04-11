@@ -24,6 +24,11 @@ public class PersonaServiceImpl implements PersonServiceInterface{
     }
 
     @Override
+    public Flux<Person> findByName(String name){
+        return repo.findByName(name);
+    }
+
+    @Override
     public Mono<Person> save(Person person) {
         return null;
     }
