@@ -13,4 +13,5 @@ public interface PersonServiceInterface {
     Mono<Person> save(Person person);
     Flux<Person> saveAll(List<Person> personList);
     void delete(Integer personId);
+    public Flux<Person> greatAndLesPersonAge();
 }
