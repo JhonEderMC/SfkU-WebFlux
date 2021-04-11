@@ -8,7 +8,9 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PersonaServiceImpl implements PersonServiceInterface{
@@ -49,6 +51,19 @@ public class PersonaServiceImpl implements PersonServiceInterface{
     @Override
     public void delete(Integer personId) {
         repo.delete(personId);
+    }
+
+    public Flux<Person> greatAndLesPersonAge(){
+        var monOptGreat = repo.findAll()
+                .collect(Collectors.maxBy(Comparator.comparing(Person::getAge)))
+                .map(x->x.get());
+
+        var monOptLess = repo.findAll()
+                .collect(Collectors.minBy(Comparator.comparing(Person::getAge)))
+                .map(x->x.get());
+
+        return Flux.zip(monOptGreat, monOptLess)
+                .flatMap(x-> Flux.just(x.getT2(),(x.getT2())));
 
     }
 }
