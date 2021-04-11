@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/person")
 public class PersonController {
@@ -34,6 +36,12 @@ public class PersonController {
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<Person> savePerson(@RequestBody Person person){
         return service.save(person);
+    }
+
+    @PostMapping("/all")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Flux<Person> savePeople(@RequestBody List<Person> personList){
+        return service.saveAll(personList);
     }
 
 }
