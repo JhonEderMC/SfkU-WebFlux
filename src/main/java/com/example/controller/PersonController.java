@@ -3,6 +3,7 @@ package com.example.controller;
 import com.example.model.Person;
 import com.example.service.PersonServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -30,6 +31,7 @@ public class PersonController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Mono<Person> savePerson(@RequestBody Person person){
         return service.save(person);
     }
