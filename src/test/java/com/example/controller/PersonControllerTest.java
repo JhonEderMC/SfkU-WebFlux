@@ -2,7 +2,10 @@ package com.example.controller;
 
 import com.example.model.Person;
 
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
@@ -25,13 +28,14 @@ import static org.junit.jupiter.api.Assertions.*;
 @DirtiesContext
 @AutoConfigureWebTestClient
 @ActiveProfiles("test")
-
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class PersonControllerTest {
 
     @Autowired
     private WebTestClient webTestClient;
 
     @Test
+    @Order(1)
     void getPeopleValidateResponse() {
       Flux<Person> personFlux = webTestClient.get().uri("/person/all").exchange()
                 .expectStatus().isOk()
@@ -39,12 +43,15 @@ class PersonControllerTest {
                 .returnResult(Person.class)
                 .getResponseBody();
 
+      //Si corres solo este test se esperan 11 personas, si los corres todos serian 10, porque el test de eliminar quita una
+        //por eso es importante el orden, con esto se soluciona esto
         StepVerifier.create(personFlux.log("Receiving values !!!"))
                 .expectNextCount(11)
                 .verifyComplete();
     }
 
     @Test
+    @Order(2)
     void getPeopleValidate(){
         webTestClient.get().uri("/person/all").exchange()
                 .expectStatus().isOk()
@@ -71,6 +78,7 @@ class PersonControllerTest {
     }
 
     @Test
+    @Order(4)
     void getPersonByIdNoFound(){
         webTestClient.get().uri("person/id".concat("/{id}"), "-10")
                 .exchange()
@@ -79,6 +87,7 @@ class PersonControllerTest {
     }
 
     @Test
+    @Order(5)
     void getPeopleByNameValidate(){
         webTestClient.get().uri("/person/name".concat("/{name}"), "o")
                 .exchange()
@@ -97,6 +106,7 @@ class PersonControllerTest {
     }
 
     @Test
+    @Order(6)
     void getPeopleByNameNoFound(){
         webTestClient.get().uri("/person/name".concat("/{name}"), "#4-0LSA&")
                 .exchange()
@@ -106,6 +116,7 @@ class PersonControllerTest {
     }
 
     @Test
+    @Order(7)
     void savePerson(){
         webTestClient.post().uri("/person").contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
                 .body(Mono.just(Person.DEFAULT_PERSON), Person.class)
@@ -124,6 +135,7 @@ class PersonControllerTest {
     }
 
     @Test
+    @Order(9)
     void savePeople(){
         webTestClient.post().uri("/person/all").contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
                 .body(Flux.just(Person.DEFAULT_PERSON, Person.PERSON_NO_FOUND), Person.class)
@@ -142,8 +154,9 @@ class PersonControllerTest {
     }
 
     @Test
+    @Order(8)
     void deletedById(){
-        webTestClient.delete().uri("/person".concat("/{id}"), "1")
+        webTestClient.delete().uri("/person".concat("/{id}"), "0")
                 .accept(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
                 .exchange()
                 .expectStatus().isOk()
