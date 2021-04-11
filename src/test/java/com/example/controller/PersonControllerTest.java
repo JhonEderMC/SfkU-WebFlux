@@ -171,4 +171,18 @@ class PersonControllerTest {
                 .expectStatus().isOk()
                 .expectBodyList(Person.class);
     }
+
+    @Test()
+    @Order(10)
+    void statistics(){
+        webTestClient.get().uri("/person".concat("/statistics"))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$.count").isNotEmpty()
+                .jsonPath("$.sum").isNotEmpty()
+                .jsonPath("$.min").isNotEmpty()
+                .jsonPath("$.max").isNotEmpty()
+                .jsonPath("$.average").isNotEmpty();
+    }
 }
