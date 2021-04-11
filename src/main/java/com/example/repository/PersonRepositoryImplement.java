@@ -52,7 +52,15 @@ public class PersonRepositoryImplement implements PersonRepositoryInter{
 
     @Override
     public Mono<Person> save(Person person) {
-        return null;
+         return Mono.just(person)
+                .flatMap(p ->{
+                    if (personList.contains(p)){
+                        return Mono.empty();
+                    }else {
+                        personList.add(p);
+                        return Mono.just(p);
+                    }
+                });
     }
 
     @Override
