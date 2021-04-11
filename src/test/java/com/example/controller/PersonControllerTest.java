@@ -97,6 +97,10 @@ class PersonControllerTest {
 
     @Test
     void getPeopleByNameNoFound(){
-
+        webTestClient.get().uri("/person/name".concat("/{name}"), "#4-0LSA&")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .json("[]");
     }
 }
