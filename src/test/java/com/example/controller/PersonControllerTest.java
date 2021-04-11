@@ -116,4 +116,22 @@ class PersonControllerTest {
                 .jsonPath("$.name").isEqualTo("DEFAULT")
                 .jsonPath("$.age").isEqualTo("999");
     }
+
+    @Test
+    void savePeople(){
+        webTestClient.post().uri("/person/all").contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
+                .body(Flux.just(Person.DEFAULT_PERSON, Person.PERSON_NO_FOUND), Person.class)
+                .exchange()
+                .expectStatus().isCreated()
+                .expectBodyList(Person.class)
+                .consumeWith(people->{
+                         var list = people.getResponseBody();
+                         list.forEach(p->{
+                             assertNotNull(p.getId());
+                             assertNotNull(p.getAge());
+                             assertNotNull(p.getName());
+                            });
+                        }
+                );
+    }
 }
