@@ -63,9 +63,25 @@ public class PersonRepositoryImplement implements PersonRepositoryInter{
                 });
     }
 
+    //Remover de la base de datos simulados
     @Override
     public void delete(Integer personId) {
+        boolean delete = false;
+        Person person = null;
+        for (Person p:personList){
+            if (p.getId().equals(personId)){
+                delete=true;
+                person = p;
+                break;
+            }
+        }
+        if (delete){
+            removeIf(person);
+        }
+    }
 
+    private void removeIf( Person person){
+        personList.remove(person);
     }
 
     private List<Person> start() {
