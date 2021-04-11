@@ -9,6 +9,7 @@ import reactor.core.publisher.Mono;
 
 
 import java.util.Comparator;
+import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,7 +54,7 @@ public class PersonaServiceImpl implements PersonServiceInterface{
         repo.delete(personId);
     }
 
-    public Flux<Person> greatAndLesPersonAge(){
+    public Flux<Person> greatAndLessPersonAge(){
         var monOptGreat = repo.findAll()
                 .collect(Collectors.maxBy(Comparator.comparing(Person::getAge)))
                 .map(x->x.get());
@@ -65,5 +66,10 @@ public class PersonaServiceImpl implements PersonServiceInterface{
         return Flux.zip(monOptGreat, monOptLess)
                 .flatMap(x-> Flux.just(x.getT2(),(x.getT2())));
 
+    }
+
+    public Mono<IntSummaryStatistics> statistics() {
+        return repo.findAll()
+                .collect(Collectors.summarizingInt(Person::getAge));
     }
 }
