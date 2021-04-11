@@ -30,7 +30,7 @@ public class PersonaServiceImpl implements PersonServiceInterface{
 
     @Override
     public Mono<Person> save(Person person) {
-        return null;
+        return repo.save(person);
     }
 
     @Override
