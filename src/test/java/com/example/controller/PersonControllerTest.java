@@ -13,6 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import java.util.List;
@@ -102,5 +103,17 @@ class PersonControllerTest {
                 .expectStatus().isOk()
                 .expectBody()
                 .json("[]");
+    }
+
+    @Test
+    void savePerson(){
+        webTestClient.post().uri("/person").contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
+                .body(Mono.just(Person.DEFAULT_PERSON), Person.class)
+                .exchange()
+                .expectStatus().isCreated()
+                .expectBody()
+                .jsonPath("$.id").isNotEmpty()
+                .jsonPath("$.name").isEqualTo("DEFAULT")
+                .jsonPath("$.age").isEqualTo("999");
     }
 }
