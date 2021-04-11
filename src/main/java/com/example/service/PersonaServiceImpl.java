@@ -48,6 +48,7 @@ public class PersonaServiceImpl implements PersonServiceInterface{
 
     @Override
     public void delete(Integer personId) {
+        repo.delete(personId);
 
     }
 }
