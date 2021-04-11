@@ -7,6 +7,7 @@ import reactor.core.publisher.Mono;
 public interface PersonServiceInterface {
     Flux<Person> findAll();
     Mono<Person> findById(Integer personId);
+    Flux<Person> findByName(String name);
     Mono<Person> save(Person person);
     void delete(Integer personId);
 }
