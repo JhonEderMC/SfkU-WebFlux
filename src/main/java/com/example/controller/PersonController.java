@@ -43,5 +43,11 @@ public class PersonController {
     public Flux<Person> savePeople(@RequestBody List<Person> personList){
         return service.saveAll(personList);
     }
+    
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deletedPerson(@PathVariable("id") Integer id){
+       service.delete(id);
+    }
 
 }
