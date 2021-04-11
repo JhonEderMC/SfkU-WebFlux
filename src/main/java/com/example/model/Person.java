@@ -1,5 +1,7 @@
 package com.example.model;
 
+import java.util.Objects;
+
 public class Person {
 
     public static final Person DEFAULT_PERSON = new Person(0,"DEFAULT",999);
@@ -10,9 +12,9 @@ public class Person {
     private Integer age;
 
     public Person(Integer id, String name, Integer age) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
+        this.id = Objects.requireNonNull(id, "The name is required");
+        this.name = Objects.requireNonNull(name, "The name is required");
+        this.age = Objects.requireNonNull(age, "The age is required");
     }
 
     public Integer getId() {
@@ -37,6 +39,19 @@ public class Person {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Person)) return false;
+        Person person = (Person) o;
+        return id.equals(person.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override
