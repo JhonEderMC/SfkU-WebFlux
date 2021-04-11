@@ -50,4 +50,9 @@ public class PersonController {
        service.delete(id);
     }
 
+    @GetMapping("/age")
+    public Flux<Person> greatAndLessPersonAge(){
+        return service.greatAndLesPersonAge();
+    }
+
 }
