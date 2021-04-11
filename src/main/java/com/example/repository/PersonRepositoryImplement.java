@@ -74,11 +74,11 @@ public class PersonRepositoryImplement implements PersonRepositoryInter{
 
     private List<Person> defaultPersons(){
         return List.of(
-                new Person(1 , "Arbey", 31),
+                new Person(1 , "Arbey", 30),
                 new Person(2 , "Daniel", 15),
-                new Person(3 , "Luisa", 19),
+                new Person(3 , "Luisa", 17),
                 new Person(5 , "Oscar", 37),
-                new Person(6 , "Andrea", 20),
+                new Person(6 , "Andrea", 16),
                 new Person(7 , "Camila", 27),
                 new Person(8 , "Jhonatan", 23),
                 new Person(9 , "Jhon", 29),
