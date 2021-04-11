@@ -140,4 +140,13 @@ class PersonControllerTest {
                         }
                 );
     }
+
+    @Test
+    void deletedById(){
+        webTestClient.delete().uri("/person".concat("/{id}"), "1")
+                .accept(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(Void.class);
+    }
 }
