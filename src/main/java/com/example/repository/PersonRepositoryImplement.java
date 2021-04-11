@@ -9,6 +9,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Repository
 public class PersonRepositoryImplement implements PersonRepositoryInter{
@@ -33,9 +34,20 @@ public class PersonRepositoryImplement implements PersonRepositoryInter{
           return Flux.fromIterable(personList)
                     .filter(person -> person.getId().equals(personId))
                     .switchIfEmpty(Mono.just(Person.PERSON_NO_FOUND))
-                    .flatMap(person -> Mono.just(person))
+                    .flatMap(Mono::just)
                     .log()
                     .next();
+    }
+
+    @Override
+    public Flux<Person> findByName(String name){
+        return Flux.fromIterable(personList)
+                .filter(person ->
+                     person.getName().toLowerCase(Locale.ROOT)
+                            .indexOf(name.trim().toLowerCase(Locale.ROOT)) >-1
+                ).switchIfEmpty(Mono.empty())
+                .map(person -> person)
+                .log();
     }
 
     @Override
