@@ -162,4 +162,13 @@ class PersonControllerTest {
                 .expectStatus().isOk()
                 .expectBody(Void.class);
     }
+
+    @Test
+    @Order(2)
+    void greatAndLessPersonAge(){
+        webTestClient.get().uri("/person".concat("/age"))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBodyList(Person.class);
+    }
 }
