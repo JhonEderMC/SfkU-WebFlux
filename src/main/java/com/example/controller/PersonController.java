@@ -22,9 +22,14 @@ public class PersonController {
      return  service.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public Mono<Person> getPersonById(@PathVariable Integer id){
-        System.out.println("User id: "+id);
         return service.findById(id);
     }
+
+    @GetMapping("/name/{name}")
+    public Flux<Person> getPeopleByName(@PathVariable String name){
+        return service.findByName(name);
+    }
+
 }
