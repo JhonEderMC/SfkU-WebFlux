@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+
+import java.util.List;
+
 @Service
 public class PersonaServiceImpl implements PersonServiceInterface{
 
@@ -31,6 +34,16 @@ public class PersonaServiceImpl implements PersonServiceInterface{
     @Override
     public Mono<Person> save(Person person) {
         return repo.save(person);
+    }
+
+    @Override
+    public Flux<Person> saveAll(List<Person> personList){
+        var peopleBefore = repo.findAll();
+
+        var p = peopleBefore.toIterable(); //este iterable no es usable no se deja recorrer de ninguna forma
+
+        return   peopleBefore.concatWith(Flux.fromIterable(personList))
+                .flatMap(person -> repo.save(person));
     }
 
     @Override
